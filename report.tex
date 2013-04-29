@@ -54,9 +54,24 @@ To have this real cases being part of unit tests, we wrote a gesture recorder an
 Thanks to this, we tried different mathematical (and na•ve) approach until we found a set of relations satisfying all the implemented tests.
 
 \section{Gesture implementation}
+
+Now that we had an algorithm passing tests, we started to implement gestures events.
+We decided to have an architecture oriented to extensibility knowing that we will be not able to implement the full set of gestures. Moreover we were thinking that this way, every user could easily define its own gestures fitting its needs.
+
+Implementation speaking, we used a command pattern iterating over all the "analyzer" object fitting the received event, collect the returned system events, and propagate them. One can then easily plug a new analyzer in order to generate the wanted system events.
+
 \section{Switching to VM events}
+
+Now that the gesture analyser is working and tested with TUIO events, the next step is to use VM events. Ir order to be able to switch, the Vm have to be modified.
+This is were we are now is our project. We have approached one of the few people knowing enough the VM to modify it, and we have to work with him to be able to straightly forward the events from the lowest OS layer directly to Pharo image. We hope that the test coverage will point us where errors are, and give us a quick feedback to be able to switch smoothly.
+
 \section{Conclusion}
 
+In a nutshell, this project gave us the opportunity to apply what we did last semester in PJE to a whole different system, and to extend the work upstream and downstream by having to modify the representation of low level events and by having to implement a more complex gesture analyser based on a state machine.
+
+We hope this project, even if now not fully done, will have an impact on Pharo and help this system to be the first multitouch Smalltalk implementation.
+
+\newpage
 \section{Appendices}
 
 \begin{figure}[ht]
