@@ -32,9 +32,29 @@ finger on the device (\emph{cf}~Fig.~\ref{fig:TUIO_platform_diagram}). For our t
 Tongseng \footnote{Fajran Iman Rusadi -  https://github.com/fajran/tongseng} that generates TUIO events from the Mac trackpad and a library created by Simon Holland\footnote{http://mcl.open.ac.uk/sh/squeakmusic.html} that parses the TUIO events.
 
 \section{System events hierarchy}
-\section{Switching to VM events}
+
+In Pharo, the current implementation of system events\footnote{Like MouseMove, KeyPressed, etc.} is really messy and not object oriented at all.
+The first task while interpreting system events is to be able to transform the low level array describing an event from the Virtual Machine into a Pharo object.
+
+Currently the object responsible of this transformation is the morph\footnote{Pharo graphical widget} representing the mouse cursor. Moreover, the events are hardcoded in a way reducing the ease of extendability.
+
+Our first task was to take the prototype of new implementation done by Pr. Stéphane Ducasse and Igor Stasenko and to polish it in order to make it work in our scenario.
+This new infrastructure of events gave us space to easily experiment with system events without breaking the whole system, and space to implement our own events like two fingers rotation.
+
 \section{State machine limits}
+
+Once the events correctly set, we were able to experiment the analysis of events using a state machine. Indeed, we thought it will be great to have a state machine here, allowing us to describe some complex behaviour easily.
+
+We quickly encountered the the problem which took us the more time to fix. In fact, during the implementation of basic gestures (two fingers swipe, pinch and rotate) we figured out we had to specify some constants for being able to distinguish the different cases, without forgetting the acceleration.
+
+For being able to measure our progress, we started to implement unit tests here.
+As a first step, we wrote some basic tests describing "perfect gestures". But soon we decided to have a set of more real cases.
+To have this real cases being part of unit tests, we wrote a gesture recorder and gesture reader which can be substituted from the system events input reader in order to replay previously recorded gestures. This way we had a set of real gestures that we were able to reproduce again and again in our tests.
+
+Thanks to this, we tried different mathematical (and naïve) approach until we found a set of relations satisfying all the implemented tests.
+
 \section{Gesture implementation}
+\section{Switching to VM events}
 \section{Conclusion}
 
 \section{Appendices}
